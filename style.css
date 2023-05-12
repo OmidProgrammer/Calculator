@@ -1,0 +1,93 @@
+* {
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
+  overflow: hidden;
+  user-select: none;
+}
+:root {
+  --main-color: #e2b714;
+  --caret-color: #e2b714;
+  --sub-color: #646669;
+  --sub-alt-color: #2c2e31;
+  --text-color: #d1d0c5;
+  --error-color: #ca4754;
+  --error-extra-color: #7e2a33;
+  --colorful-error-color: #ca4754;
+  --colorful-error-extra-color: #7e2a33;
+  --green: #228b22;
+  --medium-size: 50px;
+  --calculator-width: 600px;
+  --calculator-height: 850px;
+}
+body {
+  width: 100vw;
+  height: 100dvh;
+  background: linear-gradient(45deg, #082567, black);
+  color: var(--text-color);
+  font-size: var(--medium-size);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.container {
+  width: var(--calculator-width);
+  height: var(--calculator-height);
+  border: 10px solid #002244;
+  border-radius: 10px;
+}
+.output {
+  width: 100%;
+  height: 20%;
+  border-bottom: 5px solid #0047ab;
+  padding: 10px;
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+}
+.opration-symbol {
+  margin: 0 5px;
+}
+.input {
+  width: 100%;
+  height: 80%;
+  padding: 15px;
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  grid-template-rows: repeat(5, 1fr);
+  gap: 15px;
+}
+.input > div {
+  background: black;
+  border-radius: 20px;
+  box-shadow: -5px -5px 10px rgba(225, 225, 225, 0.2), 5px 5px 10px rgba(0, 0, 0, 0.8);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.del,
+.ac {
+  color: var(--error-color);
+}
+.opration {
+  color: var(--green);
+}
+.equals {
+  background: #0047ab !important;
+  color: black;
+  box-shadow: none !important;
+}
+.whenClick {
+  animation: whenClick 200ms linear;
+}
+@keyframes whenClick {
+  0% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(0.9);
+  }
+  100% {
+    transform: scale(1);
+  }
+}

@@ -1,97 +1,47 @@
-const allKeys = document.querySelectorAll(".input > div")
-const previous = document.querySelector(".previous")
-const oprationSymbol = document.querySelector(".opration-symbol")
-const current = document.querySelector(".current")
-const allNumbers = document.querySelectorAll(".number")
-const allOprations = document.querySelectorAll(".opration")
-const AC = document.querySelector(".ac")
-const del = document.querySelector(".del")
-const equals = document.querySelector(".equals")
+const toggle = document.querySelector(".toggle")
+const output = document.querySelector(".output")
+const btns = document.querySelectorAll(".input > div")
+const alldivs = document.querySelectorAll("div")
 
-class Calculator {
-  constructor(previous, current, oprationEl) {
-    this.previous = previous
-    this.current = current
-    this.oprationEl = oprationEl
-    this.clear()
-  }
+const oprations = ["%", "/", "*", "-", "+"]
 
-  clear() {
-    this.previousNumber = ""
-    this.opration = undefined
-    this.currentNumber = ""
-    this.oprationDone = false
-    this.update()
-  }
-
-  delete() {
-    if (this.currentNumber) this.currentNumber = this.currentNumber.toString().slice(0, -1)
-    this.update()
-  }
-
-  appendNumber(number) {
-    if (this.oprationDone) {
-      this.currentNumber = number
-      this.oprationDone = false
-    } else {
-      this.currentNumber += number
-    }
-    this.update()
-  }
-
-  chooseOpration(opration) {
-    if (!this.currentNumber) return
-    if (this.previousNumber) this.compute()
-
-    this.opration = opration
-    this.previousNumber = this.currentNumber
-    this.currentNumber = ""
-    this.update()
-  }
-
-  compute() {
-    const cur = parseFloat(this.currentNumber)
-    const pre = parseFloat(this.previousNumber)
-    switch (this.opration) {
-      case "%":
-        this.currentNumber = pre % cur
-        break
-      case "/":
-        this.currentNumber = pre / cur
-        break
-      case "*":
-        this.currentNumber = pre * cur
-        break
-      case "-":
-        this.currentNumber = pre - cur
-        break
-      case "+":
-        this.currentNumber = pre + cur
-        break
-    }
-    this.previousNumber = ""
-    this.opration = undefined
-    this.oprationDone = true
-    this.update()
-  }
-
-  update() {
-    this.oprationEl.innerHTML = this.opration || " "
-    this.previous.innerHTML = this.previousNumber
-    this.current.innerHTML = " " + this.currentNumber
-  }
+const isTouchDevice = () => {
+ try {
+  document.createEvent("TouchEvent")
+  return true
+ } catch {
+  return false
+ }
 }
 
-const calculator = new Calculator(previous, current, oprationSymbol)
+let nan = false
 
-allKeys.forEach((key) => {
-  key.onclick = () => {
-    key.classList.add("whenClick")
-    setTimeout(() => key.classList.remove("whenClick"), 200)
-    if (key.classList.contains("ac")) calculator.clear()
-    if (key.classList.contains("del")) calculator.delete()
-    if (key.classList.contains("number")) calculator.appendNumber(key.innerHTML)
-    if (key.classList.contains("equals")) calculator.compute()
-    if (key.classList.contains("opration")) calculator.chooseOpration(key.innerHTML)
-  }
-})
+document.addEventListener("keydown", (e) => compute(e.key))
+for (let i = 0; i < btns.length; i++) btns[i].onclick = () => compute(btns[i].innerHTML)
+if (isTouchDevice()) alldivs.forEach((div) => (div.style.cursor = "unset"))
+
+function compute(condition) {
+ if (nan) output.innerHTML = ""
+ for (let i = 0; i < 10; i++) if (condition === `${i}`) output.innerHTML += i
+ for (let i in oprations) {
+  if (output.innerHTML !== "" && condition === oprations[i] && !oprations.some((opration) => output.innerHTML.includes(opration)))
+   output.innerHTML += oprations[i]
+ }
+ if (condition === "C" || condition === "c") output.innerHTML = ""
+ else if (condition === "00") output.innerHTML += "00"
+ else if (condition === "." && !output.innerHTML.includes(".")) output.innerHTML += "."
+ else if (condition === "l") document.body.classList.add("light")
+ else if (condition === "d") document.body.classList.remove("light")
+ else if ((condition === "=" || condition === "Enter") && output.innerHTML != "") output.innerHTML = eval(output.innerHTML)
+ else if (condition === "DEL" || condition === "Backspace") output.innerHTML = output.innerHTML.toString().slice(0, -1)
+ if (output.innerHTML === "NaN") {
+  output.innerHTML = "Not a Number"
+  output.style.justifyContent = "center"
+  nan = true
+ } else {
+  output.style.justifyContent = "flex-end"
+  nan = false
+ }
+}
+
+toggle.onclick = () => document.body.classList.toggle("light")

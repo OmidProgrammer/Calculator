@@ -1,93 +1,127 @@
 * {
-  padding: 0;
-  margin: 0;
-  box-sizing: border-box;
-  overflow: hidden;
-  user-select: none;
+ padding: 0;
+ margin: 0;
+ overflow: hidden;
+ box-sizing: border-box;
+ user-select: none;
+ transition: background 1s ease-in-out;
 }
 :root {
-  --main-color: #e2b714;
-  --caret-color: #e2b714;
-  --sub-color: #646669;
-  --sub-alt-color: #2c2e31;
-  --text-color: #d1d0c5;
-  --error-color: #ca4754;
-  --error-extra-color: #7e2a33;
-  --colorful-error-color: #ca4754;
-  --colorful-error-extra-color: #7e2a33;
-  --green: #228b22;
-  --medium-size: 50px;
-  --calculator-width: 600px;
-  --calculator-height: 850px;
+ --dark-background: #33393e;
+ --dark-dark-shadow: rgba(0, 0, 0, 0.35);
+ --dark-light-shadow: rgba(255, 255, 255, 0.1);
+ --dark-color: #eee;
+
+ --light-background: #beb9a1;
+ --light-dark-shadow: rgba(0, 0, 0, 0.3);
+ --light-light-shadow: #dedac6;
+ --light-color: #333;
+
+ --AC: #f44336;
+ --equal: #2196f3;
 }
 body {
-  width: 100vw;
-  height: 100dvh;
-  background: linear-gradient(45deg, #082567, black);
-  color: var(--text-color);
-  font-size: var(--medium-size);
-  display: flex;
-  justify-content: center;
-  align-items: center;
+ width: 100vw;
+ height: 100vh;
+ background: var(--dark-background);
+ display: flex;
+ justify-content: center;
+ align-items: center;
 }
-.container {
-  width: var(--calculator-width);
-  height: var(--calculator-height);
-  border: 10px solid #002244;
-  border-radius: 10px;
+.light {
+ background: var(--light-background);
+}
+.light .toggle {
+ background: var(--dark-background);
+ box-shadow: 2px 2px 4px var(--dark-light-shadow), -2px -2px 4px var(--dark-dark-shadow);
+}
+.light .toggle:active {
+ box-shadow: inset 2px 2px 4px var(--dark-light-shadow), inset -2px -2px 4px var(--dark-dark-shadow);
+}
+.light .calculator {
+ background: var(--light-background);
+ box-shadow: 10px 10px 15px var(--light-dark-shadow), -10px -10px 15px var(--light-light-shadow);
+}
+.light .output {
+ background: var(--light-background);
+ color: var(--equal);
+ box-shadow: inset 10px 10px 15px var(--light-dark-shadow), inset -10px -10px 15px var(--light-light-shadow);
+}
+.light .input > div {
+ color: var(--light-color);
+ box-shadow: 5px 5px 10px var(--light-dark-shadow), -5px -5px 10px var(--light-light-shadow);
+}
+.light .input > div:active {
+ box-shadow: inset 5px 5px 10px var(--light-dark-shadow), inset -5px -5px 10px var(--light-light-shadow);
+}
+.light .input > div:first-child:active,
+.light .input > div:last-child:active {
+ box-shadow: inset 5px 5px 10px var(--light-dark-shadow), inset -5px -5px 10px var(--dark-light-shadow) !important;
+}
+.toggle {
+ width: 30px;
+ height: 30px;
+ background: var(--light-background);
+ border-radius: 50%;
+ position: absolute;
+ top: 10px;
+ right: 10px;
+ box-shadow: 2px 2px 4px var(--light-light-shadow), -2px -2px 4px var(--light-dark-shadow);
+ cursor: pointer;
+}
+.toggle:active {
+ box-shadow: inset 2px 2px 4px var(--light-dark-shadow), inset -2px -2px 4px var(--light-light-shadow);
+}
+.calculator {
+ width: 340px;
+ background: var(--dark-background);
+ border-radius: 20px;
+ padding: 20px;
+ box-shadow: 10px 10px 15px var(--dark-dark-shadow), -10px -10px 15px var(--dark-light-shadow);
 }
 .output {
-  width: 100%;
-  height: 20%;
-  border-bottom: 5px solid #0047ab;
-  padding: 10px;
-  display: flex;
-  justify-content: flex-end;
-  align-items: center;
-}
-.opration-symbol {
-  margin: 0 5px;
+ width: 100%;
+ height: 100px;
+ background: var(--dark-background);
+ color: var(--dark-color);
+ font-size: 2em;
+ font-weight: 500;
+ border-radius: 10px;
+ padding: 0 20px;
+ margin-bottom: 10px;
+ box-shadow: inset 10px 10px 15px var(--dark-dark-shadow), inset -10px -10px 15px var(--dark-light-shadow);
+ display: flex;
+ justify-content: flex-end;
+ align-items: center;
 }
 .input {
-  width: 100%;
-  height: 80%;
-  padding: 15px;
-  display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  grid-template-rows: repeat(5, 1fr);
-  gap: 15px;
+ display: grid;
+ grid-template-columns: repeat(4, 1fr);
 }
 .input > div {
-  background: black;
-  border-radius: 20px;
-  box-shadow: -5px -5px 10px rgba(225, 225, 225, 0.2), 5px 5px 10px rgba(0, 0, 0, 0.8);
-  display: flex;
-  justify-content: center;
-  align-items: center;
+ color: var(--dark-color);
+ font-size: 1.2em;
+ border-radius: 10px;
+ padding: 10px;
+ margin: 10px;
+ box-shadow: 5px 5px 10px var(--dark-dark-shadow), -5px -5px 10px var(--dark-light-shadow);
+ display: flex;
+ justify-content: center;
+ align-items: center;
+ cursor: pointer;
 }
-.del,
-.ac {
-  color: var(--error-color);
+.input > div:active {
+ box-shadow: inset 5px 5px 10px var(--dark-dark-shadow), inset -5px -5px 10px var(--dark-light-shadow);
 }
-.opration {
-  color: var(--green);
+.input > div:first-child {
+ background: var(--AC);
+ color: var(--dark-color);
 }
-.equals {
-  background: #0047ab !important;
-  color: black;
-  box-shadow: none !important;
+.input > div:last-child {
+ background: var(--equal);
+ color: var(--dark-color);
 }
-.whenClick {
-  animation: whenClick 200ms linear;
-}
-@keyframes whenClick {
-  0% {
-    transform: scale(1);
-  }
-  50% {
-    transform: scale(0.9);
-  }
-  100% {
-    transform: scale(1);
-  }
+.input > div:first-child:active,
+.input > div:last-child:active {
+ box-shadow: inset 5px 5px 10px var(--dark-dark-shadow), inset -5px -5px 10px var(--dark-light-shadow) !important;
 }
